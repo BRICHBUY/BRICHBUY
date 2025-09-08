@@ -19,7 +19,7 @@
     async function buscar() {
       const texto = document.getElementById('busqueda').value;
       const chino = encodeURIComponent(texto); // traducción manual después
-      const apiKey = 'abc123def456ghi789'; // ⬅️ pega tu clave de SerpApi aquí
+      const apiKey = '5d91a58517074d7aa379a0c43f7c0325ac00c919004b35f99036784885881ee9'; // ⬅️ pega tu clave de SerpApi aquí
       const url = `https://serpapi.com/search.json?engine=google_shopping&q=${chino}&api_key=${apiKey}&hl=zh&tbm=shop`;
 
       document.getElementById('resultados').innerHTML = 'Buscando...';
