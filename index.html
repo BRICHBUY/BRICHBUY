@@ -22,7 +22,7 @@
       const apiKey = 'TU_API_KEY_AQUI'; // ⬅️ pega tu clave de SerpApi aquí
       const url = `https://serpapi.com/search.json?engine=google_shopping&q=${chino}&api_key=${apiKey}&hl=zh&tbm=shop`;
 
-      document.getElementById('resultados').innerText = 'Buscando...';
+      document.getElementById('resultados').innerHTML = 'Buscando...';
 
       try {
         const res = await fetch(url);
