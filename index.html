@@ -2,11 +2,24 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>BRICHBUY - Importamos lo que quieras</title>
+  <title>BRICHBUY - Buscador de Productos</title>
 </head>
 <body>
   <h1>Bienvenido a BRICHBUY</h1>
   <p>Importamos y enviamos cualquier producto desde China, EE.UU. y más.</p>
-  <p>Próximamente: buscador de productos en línea.</p>
+
+  <h2>Busca tu producto</h2>
+  <input type="text" id="busqueda" placeholder="Escribe aquí... (ej. nike cortez)">
+  <button onclick="buscar()">Buscar</button>
+
+  <h3>Resultados:</h3>
+  <div id="resultados">Aquí aparecerán los productos...</div>
+
+  <script>
+    function buscar() {
+      const texto = document.getElementById('busqueda').value;
+      document.getElementById('resultados').innerText = `Buscando: "${texto}"... (pronto mostraré resultados reales)`;
+    }
+  </script>
 </body>
 </html>
