@@ -16,29 +16,37 @@
   <div id="resultados">Aquí aparecerán los productos...</div>
 
   <script>
+    async function traducir(texto) {
+      const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-CN&tl=es&dt=t&q=${encodeURIComponent(texto)}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      return data[0][0][0];
+    }
+
     async function buscar() {
       const texto = document.getElementById('busqueda').value;
-      const chino = encodeURIComponent(texto); // traducción manual después
-      const apiKey = '5d91a58517074d7aa379a0c43f7c0325ac00c919004b35f99036784885881ee9'; // ⬅️ pega tu clave de SerpApi aquí
-      const url = `https://serpapi.com/search.json?engine=google_shopping&q=${chino}&api_key=${apiKey}&hl=en&tbm=shop`;
+      const chino = encodeURIComponent(texto);
+      const apiKey = 'TU_API_KEY_AQUI'; // ⬅️ pega tu clave de SerpApi aquí
+      const url = `https://serpapi.com/search.json?engine=taobao&q=${chino}&api_key=${apiKey}`;
       document.getElementById('resultados').innerHTML = 'Buscando...';
 
       try {
         const res = await fetch(url);
         const data = await res.json();
-        const items = data.shopping_results || [];
+        const items = data.taobao_results || [];
 
         let html = '';
-        items.slice(0, 5).forEach(item => {
+        for (const item of items.slice(0, 5)) {
+          const tituloTraducido = await traducir(item.title);
           html += `
             <div style="border:1px solid #ccc; margin:10px; padding:10px;">
               <img src="${item.thumbnail}" width="100"><br>
-              <strong>${item.title}</strong><br>
+              <strong>${tituloTraducido}</strong><br>
               Precio: ${item.price}<br>
               <a href="${item.link}" target="_blank">Ver producto</a>
             </div>
           `;
-        });
+        }
 
         document.getElementById('resultados').innerHTML = html || 'No se encontraron productos.';
       } catch (err) {
