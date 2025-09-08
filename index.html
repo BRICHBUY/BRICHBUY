@@ -29,7 +29,7 @@
       const apiKey = '5d91a58517074d7aa379a0c43f7c0325ac00c919004b35f99036784885881ee9';
 
       // ✅ Llama a tu backend CORS propio
-      const url = `/search?q=${query}&api_key=${apiKey}`;
+      const url = `https://brichbuy-backend.onrender.com/search?q=${query}&api_key=${apiKey}`;
       document.getElementById('resultados').innerHTML = 'Buscando...';
 
       try {
