@@ -6,7 +6,7 @@
 </head>
 <body>
   <h1>Bienvenido a BRICHBUY</h1>
-  <p>Importamos y enviamos cualquier producto desde China, EE.UU. y más.</p>
+  <p>Importamos y enviamos cualquier producto desde China, EE. UU. y más.</p>
 
   <h2>Busca tu producto</h2>
   <input type="text" id="busqueda" placeholder="Escribe aquí... (ej. nike cortez)">
@@ -17,7 +17,7 @@
 
   <script>
     async function traducir(texto) {
-      const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-CN&tl=es&dt=t&q=${encodeURIComponent(texto)}`;
+      const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=es&dt=t&q=${encodeURIComponent(texto)}`;
       const res = await fetch(url);
       const data = await res.json();
       return data[0][0][0];
@@ -27,13 +27,13 @@
       const texto = document.getElementById('busqueda').value;
       const chino = encodeURIComponent(texto);
       const apiKey = '5d91a58517074d7aa379a0c43f7c0325ac00c919004b35f99036784885881ee9';
-      const url = `https://serpapi.com/search.json?engine=taobao&q=${chino}&api_key=${apiKey}`;
+      const url = `https://serpapi.com/search.json?engine=google_shopping&q=${chino}&api_key=${apiKey}&hl=es&tbm=shop`;
       document.getElementById('resultados').innerHTML = 'Buscando...';
 
       try {
         const res = await fetch(url);
         const data = await res.json();
-        const items = data.taobao_results || [];
+        const items = data.shopping_results || [];
 
         let html = '';
         for (const item of items.slice(0, 5)) {
