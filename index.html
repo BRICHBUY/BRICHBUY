@@ -26,7 +26,7 @@
     async function buscar() {
       const texto = document.getElementById('busqueda').value;
       const chino = encodeURIComponent(texto);
-      const apiKey = 'TU_API_KEY_AQUI'; // ⬅️ pega tu clave de SerpApi aquí
+      const apiKey = '5d91a58517074d7aa379a0c43f7c0325ac00c919004b35f99036784885881ee9';
       const url = `https://serpapi.com/search.json?engine=taobao&q=${chino}&api_key=${apiKey}`;
       document.getElementById('resultados').innerHTML = 'Buscando...';
 
