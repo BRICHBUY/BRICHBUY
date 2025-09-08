@@ -25,9 +25,9 @@
 
     async function buscar() {
       const texto = document.getElementById('busqueda').value;
-      const chino = encodeURIComponent(texto);
+      const query = encodeURIComponent(texto);
       const apiKey = '5d91a58517074d7aa379a0c43f7c0325ac00c919004b35f99036784885881ee9';
-      const url = `https://serpapi.com/search.json?engine=google_shopping&q=${chino}&api_key=${apiKey}&hl=es&tbm=shop`;
+      const url = `https://serpapi.com/search.json?engine=google_shopping&q=${query}&api_key=${apiKey}&hl=es&tbm=shop`;
       document.getElementById('resultados').innerHTML = 'Buscando...';
 
       try {
@@ -50,6 +50,7 @@
 
         document.getElementById('resultados').innerHTML = html || 'No se encontraron productos.';
       } catch (err) {
+        alert('ERROR: ' + err.message); // ← ahora verás el error real
         document.getElementById('resultados').innerText = 'Error: ' + err.message;
         console.error('Error completo:', err);
       }
