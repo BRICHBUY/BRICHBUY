@@ -16,9 +16,35 @@
   <div id="resultados">Aquí aparecerán los productos...</div>
 
   <script>
-    function buscar() {
+    async function buscar() {
       const texto = document.getElementById('busqueda').value;
-      document.getElementById('resultados').innerText = `Buscando: "${texto}"... (pronto mostraré resultados reales)`;
+      const chino = encodeURIComponent(texto); // traducción manual después
+      const apiKey = 'TU_API_KEY_AQUI'; // ⬅️ pega tu clave de SerpApi aquí
+      const url = `https://serpapi.com/search.json?engine=google_shopping&q=${chino}&api_key=${apiKey}&hl=zh&tbm=shop`;
+
+      document.getElementById('resultados').innerText = 'Buscando...';
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        const items = data.shopping_results || [];
+
+        let html = '';
+        items.slice(0, 5).forEach(item => {
+          html += `
+            <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+              <img src="${item.thumbnail}" width="100"><br>
+              <strong>${item.title}</strong><br>
+              Precio: ${item.price}<br>
+              <a href="${item.link}" target="_blank">Ver producto</a>
+            </div>
+          `;
+        });
+
+        document.getElementById('resultados').innerHTML = html || 'No se encontraron productos.';
+      } catch (err) {
+        document.getElementById('resultados').innerText = 'Error al buscar. Inténtalo de nuevo.';
+      }
     }
   </script>
 </body>
