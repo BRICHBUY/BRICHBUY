@@ -50,7 +50,8 @@
 
         document.getElementById('resultados').innerHTML = html || 'No se encontraron productos.';
       } catch (err) {
-        document.getElementById('resultados').innerText = 'Error al buscar. Inténtalo de nuevo.';
+        document.getElementById('resultados').innerText = 'Error: ' + err.message;
+        console.error('Error completo:', err);
       }
     }
   </script>
