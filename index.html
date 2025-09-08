@@ -15,51 +15,48 @@
   <h3>Resultados:</h3>
   <div id="resultados">Aquí aparecerán los productos...</div>
 
-  <script>
-    async function traducir(texto) {
-      const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=es&dt=t&q=${encodeURIComponent(texto)}`;
+ <script>
+  async function traducir(texto) {
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=es&dt=t&q=${encodeURIComponent(texto)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data[0][0][0];
+  }
+
+  async function buscar() {
+    const texto = document.getElementById('busqueda').value;
+    const query = encodeURIComponent(texto);
+    const apiKey = '5d91a58517074d7aa379a0c43f7c0325ac00c919004b35f99036784885881ee9';
+
+    // ✅ Llama a tu backend CORS propio (sin proxy roto)
+    const url = `/search?q=${query}&api_key=${apiKey}`;
+    document.getElementById('resultados').innerHTML = 'Buscando...';
+
+    try {
       const res = await fetch(url);
       const data = await res.json();
-      return data[0][0][0];
-    }
+      const items = data.shopping_results || [];
 
-    async function buscar() {
-      const texto = document.getElementById('busqueda').value;
-      const query = encodeURIComponent(texto);
-      const apiKey = '5d91a58517074d7aa379a0c43f7c0325ac00c919004b35f99036784885881ee9';
-
-      // 🔓 Proxy CORS para evitar bloqueos
-      const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(
-        `https://serpapi.com/search.json?engine=google_shopping&q=${query}&api_key=${apiKey}&hl=es&tbm=shop`
-      )}`;
-
-      document.getElementById('resultados').innerHTML = 'Buscando...';
-
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-        const items = data.shopping_results || [];
-
-        let html = '';
-        for (const item of items.slice(0, 5)) {
-          const tituloTraducido = await traducir(item.title);
-          html += `
-            <div style="border:1px solid #ccc; margin:10px; padding:10px;">
-              <img src="${item.thumbnail}" width="100"><br>
-              <strong>${tituloTraducido}</strong><br>
-              Precio: ${item.price}<br>
-              <a href="${item.link}" target="_blank">Ver producto</a>
-            </div>
-          `;
-        }
-
-        document.getElementById('resultados').innerHTML = html || 'No se encontraron productos.';
-      } catch (err) {
-        alert('ERROR: ' + err.message);
-        document.getElementById('resultados').innerText = 'Error: ' + err.message;
-        console.error('Error completo:', err);
+      let html = '';
+      for (const item of items.slice(0, 5)) {
+        const tituloTraducido = await traducir(item.title);
+        html += `
+          <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+            <img src="${item.thumbnail}" width="100"><br>
+            <strong>${tituloTraducido}</strong><br>
+            Precio: ${item.price}<br>
+            <a href="${item.link}" target="_blank">Ver producto</a>
+          </div>
+        `;
       }
+
+      document.getElementById('resultados').innerHTML = html || 'No se encontraron productos.';
+    } catch (err) {
+      alert('ERROR: ' + err.message);
+      document.getElementById('resultados').innerText = 'Error: ' + err.message;
+      console.error('Error completo:', err);
     }
-  </script>
+  }
+</script>
 </body>
 </html>
